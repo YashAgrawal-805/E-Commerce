@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #333;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        a {
+            display: block;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 20px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            input[type="text"],
+            input[type="number"],
+            input[type="file"] {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            input[type="text"],
+            input[type="number"],
+            input[type="file"] {
+                font-size: 12px;
+                padding: 6px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <%- include('./partials/header2.ejs') %>
+    </header>
+    <div class="main-content">
+        <div class="container">
+            <h1>Create Product</h1>
+            <form action="/products/create" method="post" enctype="multipart/form-data">
+                <input type="file" name="image" placeholder="Choose an image" autocomplete="off" required>
+                <input type="text" name="name" placeholder="Name" autocomplete="off" required>
+                <input type="number" name="price" placeholder="Price" autocomplete="off" required>
+                <input type="text" name="discount" placeholder="Discount" autocomplete="off">
+                <input type="text" name="bgColor" placeholder="Background color" autocomplete="off">
+                <input type="text" name="panelColor" placeholder="Panel color" autocomplete="off">
+                <input type="text" name="textColor" placeholder="Text color" autocomplete="off">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

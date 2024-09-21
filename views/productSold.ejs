@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product History</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .products {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .product_card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product_card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .product_card p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        .products-list {
+            margin-top: 10px;
+            padding-left: 15px;
+            border-left: 2px solid #ddd;
+        }
+
+        .product {
+            margin-bottom: 10px;
+        }
+
+        .product p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .total-amount {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        /* Responsive design for mobile */
+        @media (max-width: 600px) {
+            .product_card {
+                padding: 15px;
+            }
+
+            .products {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .product p {
+                font-size: 13px;
+            }
+
+            .total-amount {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <%- include('./partials/header2.ejs') %>
+    </header>
+    
+    <div class="products">
+        <% if (Allproduct.length > 0) { %>
+            <% Allproduct.forEach(function(product) { %>
+                <div class="product_card">
+                    <p>Date of Purchase: <%= new Date(product.dateOfsold).toLocaleDateString() %></p>
+
+                    <div class="products-list">
+                        <!-- Changed variable name to SoldProduct to avoid conflict -->
+                        <% product.productsSold.forEach(function(SoldProduct) { %>
+                            <div class="product">
+                                <p><strong>Product Name:</strong> <%= SoldProduct.name %></p>
+                                <p><strong>Price:</strong> $<%= SoldProduct.price %></p>
+                            </div>
+                        <% }) %>
+                    </div>
+
+                    <p class="total-amount">Total Amount Earned: $<%= product.totalAmountEarned %></p>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No products found.</p>
+        <% } %>
+    </div>
+</body>
+</html>

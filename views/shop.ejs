@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Window Image Slider with Product Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        /* Full-Window Image Slider Styles */
+        .slider-container {
+            max-width: 100%;
+            margin: 0 auto 50px;
+            overflow: hidden;
+            position: relative;
+            height: 400px;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slider-card {
+            width: 100%; /* Full width for each card */
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            box-sizing: border-box;
+            flex: 0 0 100%; /* Ensure each card takes full width */
+        }
+
+        .slider-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 18px;
+        }
+
+        .slider-control.left {
+            left: 10px;
+        }
+
+        .slider-control.right {
+            right: 10px;
+        }
+
+        /* Static Product Display */
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 300px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            justify-content: space-between;
+        }
+
+        .product-card img {
+            height: 80%;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .product-card p {
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+        }
+
+        .product-card a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .product-card a:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <header><%- include('./partials/header.ejs') %></header>
+
+    <!-- Full-Window Image Slider -->
+    <div class="slider-container">
+        <div class="slider" id="slider">
+            <% products.forEach(function(product) { %>
+            <div class="slider-card" style="background-image: url('data:<%= product.image.mimetype %>;base64,<%= product.image.toString('base64') %>');"></div>
+            <% }) %>
+        </div>
+        <!-- Slider Controls -->
+        <div class="slider-control left" id="prev">❮</div>
+        <div class="slider-control right" id="next">❯</div>
+    </div>
+
+    <!-- Static Product Display -->
+    <div class="product-list">
+        <% products.forEach(function(product) { %>
+        <div class="product-card">
+            <img src="data:<%= product.image.mimetype %>;base64,<%= product.image.toString('base64') %>" alt="Product Image">
+            <p><%= product.name %></p>
+            <p><strike>$<%= product.price %></strike> $<%= product.price - product.discount %></p>
+            <a href="/addtocart/<%= product._id %>">ADD TO CART</a>
+        </div>
+        <% }) %>
+    </div>
+
+    <script>
+        const slider = document.getElementById('slider');
+        const prev = document.getElementById('prev');
+        const next = document.getElementById('next');
+
+        let scrollPosition = 0;
+        const cardWidth = slider.offsetWidth; // Show one image at a time
+
+        next.addEventListener('click', () => {
+            scrollPosition -= cardWidth;
+            if (Math.abs(scrollPosition) >= slider.scrollWidth - cardWidth) {
+                scrollPosition = 0; // Reset to start when reaching the end
+            }
+            slider.style.transform = `translateX(${scrollPosition}px)`;
+        });
+
+        prev.addEventListener('click', () => {
+            scrollPosition += cardWidth;
+            if (scrollPosition > 0) {
+                scrollPosition = -(slider.scrollWidth - cardWidth); // Move to the end if scrolling past start
+            }
+            slider.style.transform = `translateX(${scrollPosition}px)`;
+        });
+
+        // Auto-slide every 3 seconds
+        setInterval(() => {
+            next.click();
+        }, 3000);
+    </script>
+</body>
+</html>

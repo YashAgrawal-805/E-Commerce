@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .orders {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .order_card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .order_card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .order_card p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        .products-list {
+            margin-top: 10px;
+            padding-left: 15px;
+            border-left: 2px solid #ddd;
+        }
+
+        .product {
+            margin-bottom: 10px;
+        }
+
+        .product p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .total-amount {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        /* Responsive design for mobile */
+        @media (max-width: 600px) {
+            .order_card {
+                padding: 15px;
+            }
+
+            .orders {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .product p {
+                font-size: 13px;
+            }
+
+            .total-amount {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <%- include('./partials/header.ejs') %>
+    </header>
+    
+    <div class="orders">
+        <% if (Allorder.length > 0) { %>
+            <% Allorder.forEach(function(order) { %>
+                <div class="order_card">
+                    <p>Date of Purchase: <%= new Date(order.dateOfPurchase).toLocaleDateString() %></p>
+
+                    <div class="products-list">
+                        <% order.productsPurchased.forEach(function(product) { %>
+                            <div class="product">
+                                <p><strong>Product Name:</strong> <%= product.name %></p>
+                                <p><strong>Price:</strong> $<%= product.price %></p>
+                            </div>
+                        <% }) %>
+                    </div>
+
+                    <p class="total-amount">Total Amount Paid: $<%= order.totalAmountPaid %></p>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No orders found.</p>
+        <% } %>
+    </div>
+</body>
+</html>
