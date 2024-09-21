@@ -1,1 +1,3 @@
 # E-Commerce
+DEMO USER ACC - KAVI@KAVI.com
+DEMO ADMIN ACC - KABIR@KABIR.com
